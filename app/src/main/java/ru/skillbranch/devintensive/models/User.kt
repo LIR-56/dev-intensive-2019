@@ -47,7 +47,7 @@ class User(
 
     }
 
-    data class Builder(var id: String = "",
+    class Builder(var id: String = "",
                        var firstName: String? = null,
                        var lastName: String? = null,
                        var avatar: String? = null,
@@ -74,8 +74,5 @@ class User(
 
         fun build() = User(id, firstName, lastName, avatar, rating, respect, lastVisit, isOnline)
 
-        companion object BID{
-            private var lastId = -1
-        }
     }
 }
