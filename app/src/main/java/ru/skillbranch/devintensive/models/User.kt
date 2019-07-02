@@ -15,12 +15,6 @@ class User(
 ) {
     constructor(id: String, firstName: String?, lastName: String?) : this(id, firstName, lastName, null)
 
-    constructor(id: String) : this(id, "John", "Doe $id")
-
-    init {
-        println("It's Alive!!! His name id $firstName $lastName")
-    }
-
     fun printMe() = println(
         """
             id: $id,
@@ -47,25 +41,20 @@ class User(
 
     }
 
-    class Builder(var id: String = "",
-                       var firstName: String? = null,
-                       var lastName: String? = null,
-                       var avatar: String? = null,
-                       var rating: Int = 0,
-                       var respect: Int = 0,
-                       var lastVisit: Date? = null,
-                       var isOnline: Boolean = false) {
+    class Builder(
+        var id: String = "",
+        var firstName: String? = null,
+        var lastName: String? = null,
+        var avatar: String? = null,
+        var rating: Int = 0,
+        var respect: Int = 0,
+        var lastVisit: Date? = Date(),
+        var isOnline: Boolean = false
+    ) {
 
-
-
-        init {
-            lastId++
-            this.id = lastId.toString()
-        }
-
-        fun id( id:String) = apply { this.id = id }
+        fun id(id: String) = apply { this.id = id }
         fun firstName(firstName: String?) = apply { this.firstName = firstName }
-        fun lastName(lastName: String?) = apply {this.lastName = lastName}
+        fun lastName(lastName: String?) = apply { this.lastName = lastName }
         fun avatar(avatar: String?) = apply { this.avatar = avatar }
         fun rating(rating: Int) = apply { this.rating = rating }
         fun respect(respect: Int) = apply { this.respect = respect }
