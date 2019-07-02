@@ -56,6 +56,13 @@ class User(
                        var lastVisit: Date? = null,
                        var isOnline: Boolean = false) {
 
+
+
+        init {
+            lastId++
+            this.id = lastId.toString()
+        }
+
         fun id( id:String) = apply { this.id = id }
         fun firstName(firstName: String?) = apply { this.firstName = firstName }
         fun lastName(lastName: String?) = apply {this.lastName = lastName}
@@ -67,5 +74,8 @@ class User(
 
         fun build() = User(id, firstName, lastName, avatar, rating, respect, lastVisit, isOnline)
 
+        companion object BID{
+            private var lastId = -1
+        }
     }
 }
