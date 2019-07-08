@@ -1,6 +1,5 @@
 package ru.skillbranch.devintensive.extensions
 
-import java.lang.IllegalArgumentException
 import java.lang.UnsupportedOperationException
 import java.text.SimpleDateFormat
 import java.util.*
@@ -36,7 +35,7 @@ fun Date.humanizeDiff(date: Date = Date()): String {
         in 26*HOUR .. 360*DAY -> (diff/DAY).toString() + " " +
                 TimeUnits.ending(diff/DAY, TimeUnits.DAY) + " назад"
         in 360*DAY .. Long.MAX_VALUE -> "более года назад"
-        else -> throw UnsupportedOperationException("Something went wrong with difference " + diff.toString())
+        else -> throw UnsupportedOperationException("Something went wrong with difference $diff")
     }
 }
 
@@ -63,10 +62,16 @@ enum class TimeUnits {
     HOUR,
     DAY;
 
+    fun plural(amount: Long) = "$amount ${ending(amount, this)}"
+
     companion object TU{
         fun ending(amount:Long, tu: TimeUnits):String {
             return when(tu){
-                SECOND -> throw IllegalArgumentException("Seconds are not supported yet!")
+                SECOND -> when{
+                    (amount % 10 == 1L) && (amount % 100 != 11L)  -> "секунду"
+                    (amount % 10 in 2..4) && (amount % 100 !in 12..14) -> "секунды"
+                    else -> "секунд"
+                }
                 MINUTE -> when{
                     (amount % 10 == 1L) && (amount % 100 != 11L)  -> "минуту"
                     (amount % 10 in 2..4) && (amount % 100 !in 12..14) -> "минуты"
