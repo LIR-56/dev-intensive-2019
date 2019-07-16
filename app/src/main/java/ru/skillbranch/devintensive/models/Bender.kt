@@ -39,7 +39,7 @@ class Bender(var status: Status = Status.NORMAL, var question: Question = Questi
         NORMAL(Triple(255, 255, 255)),
         WARNING(Triple(255, 120, 0)),
         DANGER(Triple(255, 60, 60)),
-        CRITICAL(Triple(255, 255, 0));
+        CRITICAL(Triple(255, 0, 0));
 
         fun nextStatus(): Status {
             return if (this.ordinal < values().lastIndex) {
@@ -54,13 +54,13 @@ class Bender(var status: Status = Status.NORMAL, var question: Question = Questi
         NAME("Как меня зовут?", listOf("бендер", "bender")) {
             override fun nextQuestion(): Question = PROFESSION
 
-            override fun validateInput(input: String): String = if (input.first().isUpperCase()) ""
+            override fun validateInput(input: String): String = if (input.isNotEmpty() && input.first().isUpperCase()) ""
             else "Имя должно начинаться с заглавной буквы"
         },
         PROFESSION("Назови мою профессию?", listOf("сгибальщик", "bender")) {
             override fun nextQuestion(): Question = MATERIAL
 
-            override fun validateInput(input: String): String = if (input.first().isLowerCase()) ""
+            override fun validateInput(input: String): String = if (input.isNotEmpty() && input.first().isLowerCase()) ""
             else "Профессия должна начинаться со строчной буквы"
         },
         MATERIAL("Из чего я сделан?", listOf("металл", "дерево", "metal", "iron", "wood")) {
@@ -72,7 +72,7 @@ class Bender(var status: Status = Status.NORMAL, var question: Question = Questi
         BDAY("Когда меня создали?", listOf("2993")) {
             override fun nextQuestion(): Question = SERIAL
 
-            override fun validateInput(input: String): String = if (input.matches(Regex("[0-9]*"))) ""
+            override fun validateInput(input: String): String = if (input.matches(Regex("[0-9]+"))) ""
             else "Год моего рождения должен содержать только цифры"
         },
         SERIAL("Мой серийный номер?", listOf("2716057")) {
@@ -82,7 +82,7 @@ class Bender(var status: Status = Status.NORMAL, var question: Question = Questi
                 if (input.matches(Regex("[0-9]*")) && input.length == 7) ""
                 else "Серийный номер содержит только цифры, и их 7"
         },
-        IDLE("На этом всё, вопросов больше нет", listOf()) {
+        IDLE("На этом все, вопросов больше нет", listOf()) {
             override fun nextQuestion(): Question = IDLE
 
             override fun validateInput(input: String): String = ""
